@@ -1,6 +1,23 @@
 import * as cheerio from 'cheerio'
 
 const POLISEN_BASE = 'https://polisen.se'
+const CACHE_TTL_MS = 10 * 60 * 1000
+
+const articleCache = new Map()
+
+const getCachedArticle = (url) => {
+  const entry = articleCache.get(url)
+  if (!entry) return null
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    articleCache.delete(url)
+    return null
+  }
+  return entry.data
+}
+
+const setCachedArticle = (url, data) => {
+  articleCache.set(url, { data, timestamp: Date.now() })
+}
 
 const isAllowedPolisenUrl = (url) => {
   if (!url) return false
@@ -26,6 +43,13 @@ export default async function handler(req, res) {
   const fullUrl = url.startsWith('http') ? url : `${POLISEN_BASE}${url}`
 
   try {
+    const cached = getCachedArticle(fullUrl)
+    if (cached) {
+      res.setHeader('x-cache', 'HIT')
+      res.json(cached)
+      return
+    }
+
     const pageResponse = await fetch(fullUrl)
     if (!pageResponse.ok) {
       res.status(pageResponse.status).json({ status: 'error', message: 'Failed to fetch page.' })
@@ -48,7 +72,7 @@ export default async function handler(req, res) {
 
     const published = $('time').text().trim() || $('.published-date').text().trim() || ''
 
-    res.json({
+    const payload = {
       status: 'success',
       title,
       subtitle,
@@ -56,7 +80,11 @@ export default async function handler(req, res) {
       published,
       fullContent: articleContent,
       sourceUrl: fullUrl,
-    })
+    }
+
+    setCachedArticle(fullUrl, payload)
+    res.setHeader('x-cache', 'MISS')
+    res.json(payload)
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     res.status(500).json({ status: 'error', message })
