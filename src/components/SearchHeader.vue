@@ -57,7 +57,10 @@ const onDateChange = (event: Event) => {
         <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
       </select>
       <label for="date" class="sr-only">Filtrera pa datum</label>
-      <input id="date" type="date" :value="selectedDate" @input="onDateChange" />
+      <div class="date-field" :data-empty="selectedDate ? 'false' : 'true'">
+        <span class="date-field__placeholder">Valj datum</span>
+        <input id="date" type="date" :value="selectedDate" @input="onDateChange" />
+      </div>
       <span class="search__hint">{{ total }} traffar</span>
     </div>
   </header>

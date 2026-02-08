@@ -138,6 +138,28 @@ img {
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
+.date-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-field input {
+  width: 100%;
+}
+
+.date-field__placeholder {
+  position: absolute;
+  left: 16px;
+  color: var(--muted);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.date-field[data-empty='false'] .date-field__placeholder {
+  display: none;
+}
+
 .search input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--ring);
