@@ -1,4 +1,4 @@
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import type { ApiEvent } from '../types/events'
 
 export const useEvents = () => {
@@ -7,6 +7,32 @@ export const useEvents = () => {
   const errorMessage = ref('')
   const query = ref('')
   const selectedType = ref('Alla')
+
+  const syncFromUrl = () => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const city = params.get('city')
+    const type = params.get('type')
+    if (city) query.value = city
+    if (type) selectedType.value = type
+  }
+
+  const syncToUrl = () => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    if (query.value.trim()) {
+      params.set('city', query.value.trim())
+    } else {
+      params.delete('city')
+    }
+    if (selectedType.value && selectedType.value !== 'Alla') {
+      params.set('type', selectedType.value)
+    } else {
+      params.delete('type')
+    }
+    const newUrl = `${window.location.pathname}${params.toString() ? `?${params}` : ''}`
+    window.history.replaceState(null, '', newUrl)
+  }
 
   const availableTypes = computed(() => {
     const unique = new Set<string>()
@@ -49,7 +75,12 @@ export const useEvents = () => {
   }
 
   onMounted(() => {
+    syncFromUrl()
     void fetchEvents()
+  })
+
+  watch([query, selectedType], () => {
+    syncToUrl()
   })
 
   return {
