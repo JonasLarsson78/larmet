@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Larmet">
+  <rect width="64" height="64" rx="14" fill="#0f172a"/>
+  <path d="M20 40c0-8 5.4-14 12-14s12 6 12 14v6H20v-6z" fill="#e11d2e"/>
+  <rect x="18" y="46" width="28" height="6" rx="3" fill="#ffd700"/>
+  <rect x="28" y="18" width="8" height="6" rx="3" fill="#ffd700"/>
+  <path d="M32 10v4" stroke="#ffd700" stroke-width="3" stroke-linecap="round"/>
+  <path d="M14 22l4 2" stroke="#ffd700" stroke-width="3" stroke-linecap="round"/>
+  <path d="M50 22l-4 2" stroke="#ffd700" stroke-width="3" stroke-linecap="round"/>
+</svg>
