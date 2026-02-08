@@ -33,6 +33,10 @@ const onDateChange = (event: Event) => {
   const target = event.target as HTMLInputElement | null
   emit('update:selectedDate', target?.value ?? '')
 }
+
+const clearDate = () => {
+  emit('update:selectedDate', '')
+}
 </script>
 
 <template>
@@ -60,6 +64,15 @@ const onDateChange = (event: Event) => {
       <div class="date-field" :data-empty="selectedDate ? 'false' : 'true'">
         <span class="date-field__placeholder">Valj datum</span>
         <input id="date" type="date" :value="selectedDate" @input="onDateChange" />
+        <button
+          v-if="selectedDate"
+          class="date-field__clear"
+          type="button"
+          aria-label="Nollstall datum"
+          @click="clearDate"
+        >
+          Rensa
+        </button>
       </div>
       <span class="search__hint">{{ total }} traffar</span>
     </div>
