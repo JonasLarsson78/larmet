@@ -24,7 +24,7 @@ const onRefresh = () => {
     <h1>Larmet</h1>
     <p>
       Snabba notiser fran raddningstjansten. Filtrera pa ort och se de senaste
-      handelserna direkt.
+      handelserna direkt..
     </p>
     <div class="search">
       <label for="search" class="sr-only">Sok pa ort</label>
