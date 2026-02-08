@@ -11,14 +11,8 @@ const { article, articleEvent, articleLoading, articleError, openArticle, closeA
 
 <template>
   <div class="page">
-    <SearchHeader
-      v-model:query="query"
-      v-model:selectedType="selectedType"
-      :types="availableTypes"
-      :loading="loading"
-      :total="filteredEvents.length"
-      @refresh="fetchEvents"
-    />
+    <SearchHeader v-model:query="query" v-model:selectedType="selectedType" :types="availableTypes" :loading="loading"
+      :total="filteredEvents.length" @refresh="fetchEvents" />
 
     <main class="content">
       <section class="status" v-if="loading || errorMessage">

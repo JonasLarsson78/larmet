@@ -74,10 +74,10 @@ const open = () => {
       <span class="card__type">{{ event.type }}</span>
       <span class="card__time">{{ formatDate(event.datetime) }}</span>
     </div>
-    <h2>{{ event.name }}</h2>
+    <h2 class="card__title">{{ event.name }}</h2>
+    <p class="card__location-line">{{ event.location?.name ?? 'Plats okand' }}</p>
     <p>{{ event.summary }}</p>
     <div class="card__footer">
-      <span class="card__location">{{ event.location?.name ?? 'Plats okand' }}</span>
       <span class="card__cta">Las mer -></span>
     </div>
   </article>

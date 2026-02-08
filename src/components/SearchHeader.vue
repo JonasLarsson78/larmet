@@ -31,7 +31,7 @@ const onTypeChange = (event: Event) => {
 <template>
   <header class="hero">
     <div class="hero__top">
-      <span class="chip">Mobilfirst - Live</span>
+      <span class="chip">Live</span>
       <button class="refresh" type="button" @click="onRefresh" :disabled="loading">
         Uppdatera
       </button>
