@@ -1,7 +1,7 @@
 {
   "name": "larmet",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,8 @@
     "vercel:deploy": "vercel",
     "vercel:prod": "vercel --prod",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release": "standard-version && git push --follow-tags"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
@@ -19,7 +20,9 @@
     "@types/node": "^24.10.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "husky": "^9.1.7",
     "sass": "^1.77.8",
+    "standard-version": "^9.5.0",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
     "vue-tsc": "^3.1.4"
