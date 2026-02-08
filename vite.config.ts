@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://polisen.se',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         secure: true,
       },
