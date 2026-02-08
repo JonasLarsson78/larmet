@@ -6,16 +6,27 @@ export const useEvents = () => {
   const loading = ref(false)
   const errorMessage = ref('')
   const query = ref('')
+  const selectedType = ref('Alla')
+
+  const availableTypes = computed(() => {
+    const unique = new Set<string>()
+    events.value.forEach((event) => {
+      if (event.type) unique.add(event.type)
+    })
+    return ['Alla', ...Array.from(unique).sort((a, b) => a.localeCompare(b))]
+  })
 
   const filteredEvents = computed(() => {
     const term = query.value.trim().toLowerCase()
-    if (!term) return events.value
+    const typeFilter = selectedType.value
 
     return events.value.filter((event: ApiEvent) => {
+      const matchesType = typeFilter === 'Alla' || event.type === typeFilter
       const name = event.name?.toLowerCase() ?? ''
       const summary = event.summary?.toLowerCase() ?? ''
       const location = event.location?.name?.toLowerCase() ?? ''
-      return name.includes(term) || summary.includes(term) || location.includes(term)
+      const matchesTerm = !term || name.includes(term) || summary.includes(term) || location.includes(term)
+      return matchesType && matchesTerm
     })
   })
 
@@ -46,6 +57,8 @@ export const useEvents = () => {
     loading,
     errorMessage,
     query,
+    selectedType,
+    availableTypes,
     filteredEvents,
     fetchEvents,
   }

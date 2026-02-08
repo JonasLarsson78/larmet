@@ -1,6 +1,16 @@
 <script setup lang="ts">
-const props = defineProps<{ query: string; loading: boolean; total: number }>()
-const emit = defineEmits<{ (event: 'update:query', value: string): void; (event: 'refresh'): void }>()
+const props = defineProps<{
+  query: string
+  selectedType: string
+  types: string[]
+  loading: boolean
+  total: number
+}>()
+const emit = defineEmits<{
+  (event: 'update:query', value: string): void
+  (event: 'update:selectedType', value: string): void
+  (event: 'refresh'): void
+}>()
 
 const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement | null
@@ -10,6 +20,11 @@ const onInput = (event: Event) => {
 const onRefresh = () => {
   if (props.loading) return
   emit('refresh')
+}
+
+const onTypeChange = (event: Event) => {
+  const target = event.target as HTMLSelectElement | null
+  emit('update:selectedType', target?.value ?? 'Alla')
 }
 </script>
 
@@ -30,6 +45,10 @@ const onRefresh = () => {
       <label for="search" class="sr-only">Sok pa ort</label>
       <input id="search" :value="query" type="search" placeholder="Sok pa ort, t.ex. Helsingborg" autocomplete="off"
         @input="onInput" />
+      <label for="type" class="sr-only">Filtrera pa typ</label>
+      <select id="type" :value="selectedType" @change="onTypeChange">
+        <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
+      </select>
       <span class="search__hint">{{ total }} traffar</span>
     </div>
   </header>

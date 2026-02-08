@@ -127,7 +127,23 @@ img {
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
+.search select {
+  border-radius: 16px;
+  border: 1px solid transparent;
+  padding: 12px 16px;
+  font-size: 1rem;
+  background: #fefbf8;
+  outline: none;
+  color: var(--ink);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
 .search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+.search select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--ring);
 }

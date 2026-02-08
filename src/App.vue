@@ -5,13 +5,20 @@ import SearchHeader from './components/SearchHeader.vue'
 import { useArticle } from './composables/useArticle'
 import { useEvents } from './composables/useEvents'
 
-const { filteredEvents, loading, errorMessage, query, fetchEvents } = useEvents()
+const { filteredEvents, loading, errorMessage, query, selectedType, availableTypes, fetchEvents } = useEvents()
 const { article, articleEvent, articleLoading, articleError, openArticle, closeArticle } = useArticle()
 </script>
 
 <template>
   <div class="page">
-    <SearchHeader v-model:query="query" :loading="loading" :total="filteredEvents.length" @refresh="fetchEvents" />
+    <SearchHeader
+      v-model:query="query"
+      v-model:selectedType="selectedType"
+      :types="availableTypes"
+      :loading="loading"
+      :total="filteredEvents.length"
+      @refresh="fetchEvents"
+    />
 
     <main class="content">
       <section class="status" v-if="loading || errorMessage">
