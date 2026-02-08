@@ -414,6 +414,18 @@ img {
   gap: 12px;
 }
 
+.footer__meta {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+  width: 100%;
+}
+
 .footer__icon {
   width: 58px;
   height: 58px;

@@ -4,10 +4,12 @@ import EventList from './components/EventList.vue'
 import SearchHeader from './components/SearchHeader.vue'
 import { useArticle } from './composables/useArticle'
 import { useEvents } from './composables/useEvents'
+import pkg from '../package.json'
 
 const { filteredEvents, loading, errorMessage, query, selectedType, selectedDate, availableTypes, fetchEvents } =
   useEvents()
 const { article, articleEvent, articleLoading, articleError, openArticle, closeArticle } = useArticle()
+const appVersion = pkg.version ?? '1.0.0'
 </script>
 
 <template>
@@ -53,6 +55,10 @@ const { article, articleEvent, articleLoading, articleError, openArticle, closeA
               fill="white" />
           </svg>
         </a>
+      </div>
+      <div class="footer__meta">
+        <span>v{{ appVersion }}</span>
+        <span>Larmet © 2026 Jonas Larsson</span>
       </div>
     </footer>
   </div>
