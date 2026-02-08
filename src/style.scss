@@ -160,6 +160,12 @@ img {
   display: none;
 }
 
+@media (min-width: 720px) {
+  .date-field__placeholder {
+    display: none;
+  }
+}
+
 .search input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--ring);
