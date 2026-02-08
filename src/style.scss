@@ -161,6 +161,12 @@ img {
   cursor: pointer;
 }
 
+@media (min-width: 720px) {
+  .date-field__clear {
+    display: none;
+  }
+}
+
 .date-field__placeholder {
   position: absolute;
   left: 16px;
