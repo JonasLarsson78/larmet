@@ -187,6 +187,9 @@ img {
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border-left: 4px solid var(--type-color, var(--accent));
+  border: none;
+  width: 100%;
+  text-align: left;
 }
 
 .card:hover {
@@ -204,8 +207,8 @@ img {
 }
 
 .card__type {
-  background: var(--type-bg, rgba(225, 29, 46, 0.16));
-  color: var(--type-color, #a51422);
+  background: var(--type-color, #a51422);
+  color: #ffffff;
   padding: 4px 10px;
   border-radius: 999px;
   font-weight: 600;

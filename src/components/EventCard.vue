@@ -30,22 +30,22 @@ const typeMatchers = [
   { match: 'alkohol', color: '#6d28d9', bg: 'rgba(109, 40, 217, 0.18)' },
   { match: 'stold', color: '#1d4ed8', bg: 'rgba(29, 78, 216, 0.18)' },
   { match: 'stold,', color: '#1d4ed8', bg: 'rgba(29, 78, 216, 0.18)' },
-  { match: 'cykelstold', color: '#2563eb', bg: 'rgba(37, 99, 235, 0.18)' },
+  { match: 'cykelstold', color: '#1d4ed8', bg: 'rgba(29, 78, 216, 0.18)' },
   { match: 'skadegorelse', color: '#b45309', bg: 'rgba(180, 83, 9, 0.18)' },
-  { match: 'arbetsplats', color: '#0ea5e9', bg: 'rgba(14, 165, 233, 0.18)' },
+  { match: 'arbetsplats', color: '#0369a1', bg: 'rgba(3, 105, 161, 0.18)' },
   { match: 'brak', color: '#9a3412', bg: 'rgba(154, 52, 18, 0.18)' },
   { match: 'brak,', color: '#9a3412', bg: 'rgba(154, 52, 18, 0.18)' },
   { match: 'pafoljd', color: '#1f2937', bg: 'rgba(31, 41, 55, 0.18)' },
   { match: 'samhalle', color: '#0f766e', bg: 'rgba(15, 118, 110, 0.18)' },
   { match: 'fjallraddning', color: '#0369a1', bg: 'rgba(3, 105, 161, 0.18)' },
   { match: 'sjofart', color: '#1d4ed8', bg: 'rgba(29, 78, 216, 0.18)' },
-  { match: 'glatt', color: '#0284c7', bg: 'rgba(2, 132, 199, 0.18)' },
+  { match: 'glatt', color: '#0369a1', bg: 'rgba(3, 105, 161, 0.18)' },
   { match: 'trafik', color: '#0f766e', bg: 'rgba(15, 118, 110, 0.18)' },
   { match: 'ovader', color: '#0f172a', bg: 'rgba(15, 23, 42, 0.16)' },
   { match: 'brandlarm', color: '#dc2626', bg: 'rgba(220, 38, 38, 0.18)' },
   { match: 'ras', color: '#b45309', bg: 'rgba(180, 83, 9, 0.18)' },
   { match: 'forvarnad', color: '#7c3aed', bg: 'rgba(124, 58, 237, 0.18)' },
-  { match: 'arbete', color: '#0ea5e9', bg: 'rgba(14, 165, 233, 0.18)' },
+  { match: 'arbete', color: '#0369a1', bg: 'rgba(3, 105, 161, 0.18)' },
   { match: 'farligt foremal', color: '#ea580c', bg: 'rgba(234, 88, 12, 0.18)' },
   { match: 'farligt', color: '#ea580c', bg: 'rgba(234, 88, 12, 0.18)' },
   { match: 'ran', color: '#6d28d9', bg: 'rgba(109, 40, 217, 0.18)' },
@@ -68,8 +68,7 @@ const open = () => {
 </script>
 
 <template>
-  <article class="card" role="button" tabindex="0" @click="open" @keydown.enter="open"
-    :style="getTypeStyle(event.type)">
+  <button class="card" type="button" @click="open" :style="getTypeStyle(event.type)">
     <div class="card__meta">
       <span class="card__type">{{ event.type }}</span>
       <span class="card__time">{{ formatDate(event.datetime) }}</span>
@@ -80,5 +79,5 @@ const open = () => {
     <div class="card__footer">
       <span class="card__cta">Las mer -></span>
     </div>
-  </article>
+  </button>
 </template>
