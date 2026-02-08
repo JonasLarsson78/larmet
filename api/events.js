@@ -1,10 +1,23 @@
 const POLISEN_BASE = 'https://polisen.se'
 const CACHE_TTL_MS = 60 * 1000
 
-let cachedEvents = null
-let cachedAt = 0
+const eventsCache = new Map()
 
-const isCacheValid = () => cachedEvents && Date.now() - cachedAt < CACHE_TTL_MS
+const getCacheKey = (date) => date || 'all'
+
+const getCachedEvents = (key) => {
+  const entry = eventsCache.get(key)
+  if (!entry) return null
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    eventsCache.delete(key)
+    return null
+  }
+  return entry.data
+}
+
+const setCachedEvents = (key, data) => {
+  eventsCache.set(key, { data, timestamp: Date.now() })
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -12,22 +25,27 @@ export default async function handler(req, res) {
     return
   }
 
+  const rawDate = req.query?.date
+  const date = Array.isArray(rawDate) ? rawDate[0] : rawDate || ''
+  const cacheKey = getCacheKey(date)
+
   try {
-    if (isCacheValid()) {
+    const cached = getCachedEvents(cacheKey)
+    if (cached) {
       res.setHeader('x-cache', 'HIT')
-      res.json(cachedEvents)
+      res.json(cached)
       return
     }
 
-    const response = await fetch(`${POLISEN_BASE}/api/events`)
+    const url = date ? `${POLISEN_BASE}/api/events?DateTime=${encodeURIComponent(date)}` : `${POLISEN_BASE}/api/events`
+    const response = await fetch(url)
     if (!response.ok) {
       res.status(response.status).json({ status: 'error', message: 'Failed to fetch events.' })
       return
     }
 
     const data = await response.json()
-    cachedEvents = data
-    cachedAt = Date.now()
+    setCachedEvents(cacheKey, data)
     res.setHeader('x-cache', 'MISS')
     res.json(data)
   } catch (error) {

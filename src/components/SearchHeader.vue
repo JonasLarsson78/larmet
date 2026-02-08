@@ -2,6 +2,7 @@
 const props = defineProps<{
   query: string
   selectedType: string
+  selectedDate: string
   types: string[]
   loading: boolean
   total: number
@@ -9,6 +10,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'update:query', value: string): void
   (event: 'update:selectedType', value: string): void
+  (event: 'update:selectedDate', value: string): void
   (event: 'refresh'): void
 }>()
 
@@ -25,6 +27,11 @@ const onRefresh = () => {
 const onTypeChange = (event: Event) => {
   const target = event.target as HTMLSelectElement | null
   emit('update:selectedType', target?.value ?? 'Alla')
+}
+
+const onDateChange = (event: Event) => {
+  const target = event.target as HTMLInputElement | null
+  emit('update:selectedDate', target?.value ?? '')
 }
 </script>
 
@@ -49,6 +56,8 @@ const onTypeChange = (event: Event) => {
       <select id="type" :value="selectedType" @change="onTypeChange">
         <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
       </select>
+      <label for="date" class="sr-only">Filtrera pa datum</label>
+      <input id="date" type="date" :value="selectedDate" @input="onDateChange" />
       <span class="search__hint">{{ total }} traffar</span>
     </div>
   </header>

@@ -7,14 +7,17 @@ export const useEvents = () => {
   const errorMessage = ref('')
   const query = ref('')
   const selectedType = ref('Alla')
+  const selectedDate = ref('')
 
   const syncFromUrl = () => {
     if (typeof window === 'undefined') return
     const params = new URLSearchParams(window.location.search)
     const city = params.get('city')
     const type = params.get('type')
+    const date = params.get('date')
     if (city) query.value = city
     if (type) selectedType.value = type
+    if (date) selectedDate.value = date
   }
 
   const syncToUrl = () => {
@@ -29,6 +32,11 @@ export const useEvents = () => {
       params.set('type', selectedType.value)
     } else {
       params.delete('type')
+    }
+    if (selectedDate.value) {
+      params.set('date', selectedDate.value)
+    } else {
+      params.delete('date')
     }
     const newUrl = `${window.location.pathname}${params.toString() ? `?${params}` : ''}`
     window.history.replaceState(null, '', newUrl)
@@ -45,14 +53,17 @@ export const useEvents = () => {
   const filteredEvents = computed(() => {
     const term = query.value.trim().toLowerCase()
     const typeFilter = selectedType.value
+    const dateFilter = selectedDate.value
 
     return events.value.filter((event: ApiEvent) => {
       const matchesType = typeFilter === 'Alla' || event.type === typeFilter
+      const eventDate = event.datetime?.split(' ')[0] ?? ''
+      const matchesDate = !dateFilter || eventDate === dateFilter
       const name = event.name?.toLowerCase() ?? ''
       const summary = event.summary?.toLowerCase() ?? ''
       const location = event.location?.name?.toLowerCase() ?? ''
       const matchesTerm = !term || name.includes(term) || summary.includes(term) || location.includes(term)
-      return matchesType && matchesTerm
+      return matchesType && matchesDate && matchesTerm
     })
   })
 
@@ -60,7 +71,11 @@ export const useEvents = () => {
     loading.value = true
     errorMessage.value = ''
     try {
-      const response = await fetch('/api/events')
+      const params = new URLSearchParams()
+      if (selectedDate.value) {
+        params.set('date', selectedDate.value)
+      }
+      const response = await fetch(`/api/events${params.toString() ? `?${params}` : ''}`)
       if (!response.ok) {
         throw new Error('Kunde inte hamta data fran API.')
       }
@@ -79,8 +94,12 @@ export const useEvents = () => {
     void fetchEvents()
   })
 
-  watch([query, selectedType], () => {
+  watch([query, selectedType, selectedDate], () => {
     syncToUrl()
+  })
+
+  watch(selectedDate, () => {
+    void fetchEvents()
   })
 
   return {
@@ -89,6 +108,7 @@ export const useEvents = () => {
     errorMessage,
     query,
     selectedType,
+    selectedDate,
     availableTypes,
     filteredEvents,
     fetchEvents,
