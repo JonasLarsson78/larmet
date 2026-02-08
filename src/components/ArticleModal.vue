@@ -1,13 +1,20 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { ApiEvent, ArticleDetail } from '../types/events'
 
-defineProps<{
+const props = defineProps<{
   open: boolean
   loading: boolean
   error: string
   article: ArticleDetail | null
   event: ApiEvent | null
 }>()
+
+const dialogLabel = computed(() => {
+  if (props.article?.title) return props.article.title
+  if (props.event?.name) return props.event.name
+  return 'Artikel'
+})
 
 const emit = defineEmits<{ (event: 'close'): void }>()
 
@@ -17,7 +24,7 @@ const close = () => {
 </script>
 
 <template>
-  <div v-if="open" class="modal" role="dialog" aria-modal="true">
+  <div v-if="open" class="modal" role="dialog" aria-modal="true" :aria-label="dialogLabel">
     <div class="modal__backdrop" @click="close"></div>
     <div class="modal__panel">
       <button class="modal__close" type="button" @click="close">Stang</button>
