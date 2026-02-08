@@ -64,13 +64,8 @@ const clearDate = () => {
       <div class="date-field" :data-empty="selectedDate ? 'false' : 'true'">
         <span class="date-field__placeholder">Valj datum</span>
         <input id="date" type="date" :value="selectedDate" @input="onDateChange" />
-        <button
-          v-if="selectedDate"
-          class="date-field__clear"
-          type="button"
-          aria-label="Nollstall datum"
-          @click="clearDate"
-        >
+        <button v-if="selectedDate" class="date-field__clear" type="button" aria-label="Nollstall datum"
+          @click="clearDate">
           Rensa
         </button>
       </div>
