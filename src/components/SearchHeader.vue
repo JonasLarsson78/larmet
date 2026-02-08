@@ -21,7 +21,7 @@ const onRefresh = () => {
         Uppdatera
       </button>
     </div>
-    <h1>Larmkollen</h1>
+    <h1>Larmet</h1>
     <p>
       Snabba notiser fran raddningstjansten. Filtrera pa ort och se de senaste
       handelserna direkt.
